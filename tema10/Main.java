@@ -1,38 +1,49 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import calculadora.Operacion;
 import exceptions.NumeroNegativoException;
+import exceptions.OperadorNoValidoException;
 import raizCuadrada.RaizCuadrada;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        menu();
         Scanner teclado = new Scanner(System.in);
-        int opcion = teclado.nextInt();
+        int opcion;
         
         do{
+            menu();
+            opcion = teclado.nextInt();
             switch(opcion){
                 case 1:
-                    //boolean continuar = true;
-                    //do{
-                        try{
-                            Scanner teclado2 = new Scanner(System.in);
-                            RaizCuadrada raiz = new RaizCuadrada();
-                            raiz.raizCuadrada(teclado2);
-                            //continuar = false;
-                        }catch (InputMismatchException e){
-                            System.out.println("Valor introducido incorrecto. Intentelo de nuevo");
-                        }catch(NumeroNegativoException e){
-                            System.out.println(e.getMessage());
-                        }
-                    //}while(continuar);
+                    try{
+                        Scanner teclado2 = new Scanner(System.in);
+                        RaizCuadrada raiz = new RaizCuadrada();
+                        raiz.raizCuadrada(teclado2);
+                    }catch(InputMismatchException e){
+                        System.out.println("Introduce un valor válido");
+                    }catch(NumeroNegativoException e){
+                        System.out.println(e.getMessage());    
+                    }
                 break;
                 case 2:
+                    Scanner teclado3 = new Scanner(System.in);
+                    try{
+                        Operacion operacion = new Operacion();
+                        operacion.operandos(teclado3);
+                    }catch(InputMismatchException ex){
+                        System.out.println("El resultado desborda la capacidad de esta calculadora.");
+                    }catch(ArithmeticException ex){
+                        System.out.println("La división por cero no esta definida");
+                    }catch(OperadorNoValidoException ex){
+                        System.out.println(ex.getMessage());
+                    }
                 break;
+
+                default: 
+                    System.out.println("Programa finalizado, gracias.");
             }
-            
         }while(opcion != 3);
-        
     }
 
     public static void menu(){
